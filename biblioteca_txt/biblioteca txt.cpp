@@ -14,8 +14,8 @@ using namespace std;
 //definimos una funcion para escribir
 void crearArchivo();
 int cliente();
-int seccion();
-int personal();
+void seccion();
+void personal(string& userref);
 void ingresarLibros();
 	
 
@@ -23,7 +23,7 @@ void ingresarLibros();
 int cantidad;
 
 void ingresarLibros(){
-	
+	string usuario;
 
 	cout<<"\n	Porfavor ingrese la cantidad de libros que desea dar de alta: ";cin>>cantidad;
 	struct Libreria estante[cantidad];
@@ -44,14 +44,16 @@ void ingresarLibros(){
 	system("cls");
 	cout<<"\n	A registrado los libros de manera exitosa!\n\n";
 	system("pause"); system("cls");
-	personal();
+    cout<<"\nIngrese su usuario nuevamente: ";
+    cin>>usuario;
+	personal(usuario);
 //	return estante;
 }
 
-personal(){
+void personal(string& userref){
 	int opc;
-	
-	cout<<"\n	Bienvenido "/*<<usuario*/<<"!";
+
+	cout<<"\n	Bienvenido "<<userref<<"!";
 		cout<<"\n	Porfavor ingresar la opcion que desea realizar";
 		cout<<"\n	Opcion 1. Ingresar libros a la biblioteca";
 		cout<<"\n	Opcion 2. Imprimir el stock de libros";
@@ -74,14 +76,14 @@ personal(){
 				break;
 			default:
 				cout<<"\n	Ingrese una opcion correcta.\n\n";
-				personal();
+				personal(userref);
 				break;					
 			
 		}
-	return 0;
+	//return 0;
 }
 
-seccion(){
+void seccion(){
 	string usuario;
 	int contrasenia;
 	cout<<"\n	Usted es personal de la libreria";
@@ -91,18 +93,18 @@ seccion(){
 	
 	if(usuario=="luis"&&contrasenia==1234){
 		system("cls");
-		personal();
+		personal(usuario);
 		
 	}else{
 		cout<<"\n	Usuario incorrecto\n\n";
 		system("pause");system("cls");
-		return 0;
+		//return 0;
 	}
-	return 0;	
+	//return 0;	
 }
 
 cliente(){
-	int opc;
+	//int opc;
 	
 	cout<<"\n	Bienvenido a la biblioteca!";
 	cout<<"\n	Le mostraremos los libros que tenemos disponibles a la venta";
