@@ -20,11 +20,11 @@ void ingresarLibros();
 	
 
 
-int cantidad;
+
 
 void ingresarLibros(){
 	string usuario;
-
+	int cantidad;
 	cout<<"\n	Porfavor ingrese la cantidad de libros que desea dar de alta: ";cin>>cantidad;
 	struct Libreria estante[cantidad];
 	
