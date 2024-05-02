@@ -29,7 +29,7 @@ do{
 		izq++;
 		der--;
 	}
-	 //cout << "\n\tizq: " << izq << ", der: " << der;
+
 }while(izq<=der);
 
 	if(inicio<=der){
@@ -39,40 +39,63 @@ do{
 	if(izq<fin){
 		quicksort(array,izq,fin);
 	}
-	
 	return;
 }
  
 int main()
 {
-	int opc;
-	int array[10]={2,13,5,7,4,8,10,6,3,9};
-	int  tam=sizeof(array)/sizeof(array[0]);
-do{
-	                                        
-
+	system("cls");
+	int opc,tam,o=1;
+	int *array=nullptr;
+	
+do{                                 
 	cout<<"\n	Bienvendo, porfavor ingrese su opcion que desea realizar.";
-	cout<<"\n	[1] Impirmir array";
-	cout<<"\n	[2] Ordenar array";
+	cout<<"\n	[1] Agregar array numerico";
+	cout<<"\n	[2] Impirmir array";
+	cout<<"\n	[3] Ordenar array";
 	cout<<"\n	Su opcion: ";
 	cin>>opc;
 		switch(opc){
 		case 1:
-			imprimir(array,tam);
+			cout<<"\n	Ingrese el tamanio de su arreglo: ";
+			cin>>tam;
+			array= new int[tam]; 
+			cout<<"\n	Ingrese los datos de su arreglo: \n";
+			for(int i=0; i<tam;i++){
+				cout<<"	";
+				cin>>array[i];
+			}
+			cout<<"\n	Arreglo Creado con exito!";
+
 			break;
 		case 2:
-			quicksort(array,0,tam-1);
+		if(array!= nullptr){
+				imprimir(array,tam);
+		}else{
+			cout<<"\n	Debe ingresar un arreglo primero\n\n";
+			system("pause");
+			main();
+		}
+			
+			break;
+		case 3:
+		if(array!= nullptr){
+				quicksort(array,0,tam-1);
+				cout<<"\n	Arreglo ordenado!\n\n";
+				system("pause");
+		}else{
+			cout<<"\n	Debe ingresar un arreglo primero\n\n";
+			system("pause");
+			main();
+		}	
 			break;
 		}
-	cout<<"\n	Ingrese 1 si desea ingresar al programa."<<endl;
-	cin>>opc;
-}while(opc==1);
+}while(o==1);
 
 }
 
-
 void imprimir(int A[], int tam){
-	cout<<"\n	";
+	cout<<"\n	Su arreglo: ";
 	for(int i=0;i<tam;i++){
 		cout<<" "<<A[i];
 	}
