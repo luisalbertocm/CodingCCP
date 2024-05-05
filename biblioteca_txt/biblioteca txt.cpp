@@ -103,7 +103,7 @@ void seccion(){
 	//return 0;	
 }
 
-cliente(){
+/*cliente(){
 	//int opc;
 	
 	cout<<"\n	Bienvenido a la biblioteca!";
@@ -113,7 +113,7 @@ cliente(){
 	
 	
 	return 0;	
-}
+}*/
 void crearArchivo(){
 	    
 	ofstream archivo;
