@@ -225,7 +225,7 @@ class Libreria{
 				break;
 
 			case 4:
-				creartxt(usuario);
+				crearInventariotxt(usuario);
 				system("pause");system("cls");
 
 				break;
@@ -247,7 +247,6 @@ class Libreria{
 
 
 	void seccion(){
-
 	string filename("D:\\GitHub\\CodingCCP\\personal.txt");
 	string line; // Variable temporal para leer cada línea
     int line_number = 0; // Contador de líneas
@@ -266,6 +265,8 @@ class Libreria{
         return;  
     }
 
+	 bool autenticado = false;
+
 	while(getline(input_file, line)){
 
 		switch(line_number%3) {//%3 ASEGURA QUE SE HAYA LEIDO EL correo, contrasenia y usuario
@@ -274,25 +275,31 @@ class Libreria{
                 break;
 
             case 1:
-                contraseniaReg = std::stoi(line);  // Convertir string a int;
+                contraseniaReg = std::stoi(line);  // Convertir string a int;			
                 break;
 
 			case 2:
 			usuario=line;
+			if(correo== correoReg && contrasenia== contraseniaReg){
+			system("cls");
+			personal(usuario);
+
+			autenticado = true;
+			}
 			break;
 	}
+	// Incrementar line_number después de procesar cada línea
+		 line_number++;
+	}
+		 input_file.close();
 
-	if(correo=="luis"&&contrasenia==1234){
-		system("cls");
-		personal(correo);
-		
-	}else{
-		cout<<"\n	Usuario incorrecto\n\n";
-		system("pause");system("cls");
-		return;
-	}
-	return;	
-	}
+		 if (!autenticado) {
+        cout << "\n\tUsuario o contrasenia incorrecto\n\n";
+        system("pause");
+        system("cls");
+        return;
+		}	
+	return;		
 }
 
 	void cliente(){
@@ -335,7 +342,7 @@ class Libreria{
 	return;	
 	}
 
-	void creartxt(string &usuario){
+	void crearInventariotxt(string &usuario){
 		Nodo *temp2 = head;//Creamos un nodo temporal que apunta al inicio
     	ofstream outFile("Inventario.txt");
     	if(outFile.is_open()) {
