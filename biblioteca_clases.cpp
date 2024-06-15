@@ -1,4 +1,5 @@
 #include <iostream> //biblioteca funciones de cin y cout
+#include <conio.h>
 #include <fstream> //biblioteca para funciones de txt
 #define TXT ".txt" //constante para crear el nombre del archivo
 
@@ -136,10 +137,6 @@ class Libreria{
 		cout<<"Libro eliminado"<<endl;//mensaje de exito
 	}
 
-	void ordenarQuicksort(){
-		cout<<"OrdenarQuicksort";
-	}
-
 	void imprimir(){
 		int pos=1;
 
@@ -149,10 +146,9 @@ class Libreria{
             cout << "La lista esta vacia."<<endl; //mensaje de error
             return;//sale de la funcion
         }
-		
-		do{ //Mientras temporal sea diferente de NULL (no es el final)
-            cout <<pos<<" - Nombre: "<<temp->libro.nombre << "\tAutor: " << temp->libro.autor<<"\nEditorial: "<<temp->libro.editorial;
-			cout<<"\nPrecio: "<<temp->libro.precio<<"\nStock: "<<temp->libro.stock; //Imprimimos el contenido de nodo actual	
+		cout<<"\n\n\t  NOMBRE\t\tAUTOR\t\tEDITORIAL\tPRECIO\tSTOCK";
+		do{ //Mientras temporal sea diferente de NULL (no es el final)	
+			cout<<"\nLibro "<<pos<<"\t"<<temp->libro.nombre<<"\t\t"<<temp->libro.autor<<"\t\t"<<temp->libro.editorial<<"\t\t$"<<temp->libro.precio<<"\t\t"<<temp->libro.stock;
             temp = temp->sig; //Y avanzamos al siguiente
             pos++;//incrementa la variable para mostrar posicion
         }while(temp!= head);// se detiene cuando ya le dimos la vuelta a la lista
@@ -184,7 +180,7 @@ class Libreria{
 	cout<<"\n	Editorial: "<<editorial;
 	cout<<"\n	Precio: "<<precio;
 	cout<<"\n	Stock: "<<stock;
-	libreria1.insertar(nombre,autor,editorial,precio,stock);
+	insertar(nombre,autor,editorial,precio,stock);
 	cout<<"\n\n	Quiere ingresar otro libro? Presione 1";
 	cout<<"\n	Su opcion: ";
 	cin>>opc;
@@ -205,8 +201,10 @@ class Libreria{
 		cout<<"\n	Bienvenido "<<usuario<<"!";
 		cout<<"\n	Porfavor ingresar la opcion que desea realizar";
 		cout<<"\n	Opcion 1. Ingresar libros a la biblioteca";
-		cout<<"\n	Opcion 2. Imprimir el stock de libros";
-		cout<<"\n	Opcione 3. Cerrar seccion";
+		cout<<"\n	Opcion 2. Imprimir libros";
+		cout<<"\n	Opcion 3. Ordenar los libros por precio";
+		cout<<"\n	Opcione 4. Crear txt";
+		cout<<"\n	Opcione 5. Cerrar seccion";
 		cout<<"\n\n	Su opcion: ";cin>>opc;
 		switch(opc){
 			case 1:
@@ -215,13 +213,27 @@ class Libreria{
 				break;
 				
 			case 2:
-				cout<<"hola";
+				system("cls");
+				imprimir();
+				system("pause");
+				personal(usuario);
 				break;
 			
 			case 3:
-				cout<<"\n	Usted a cerrado seccion de manera exitosa!";
+				//ordenarPorPrecio();
+				//personal(usuario);
+				break;
+
+			case 4:
+				creartxt(usuario);
 				system("pause");system("cls");
-				
+
+				break;
+
+			case 5:
+				cout<<"\n	Usted a cerrado seccion de manera exitosa!\n\n";
+				system("pause");system("cls");
+
 				break;
 			default:
 				cout<<"\n	Ingrese una opcion correcta.\n\n";
@@ -235,16 +247,44 @@ class Libreria{
 
 
 	void seccion(){
-	string usuario;
-	int contrasenia;
+
+	string filename("D:\\GitHub\\CodingCCP\\personal.txt");
+	string line; // Variable temporal para leer cada línea
+    int line_number = 0; // Contador de líneas
+
+	string correo,correoReg, usuario;
+	int contrasenia, contraseniaReg;
 	cout<<"\n	Usted es personal de la libreria";
 	cout<<"\n	Porfavor inicie seccion";
-	cout<<"\n\n	Usuario: ";cin>>usuario;
+	cout<<"\n\n	Correo: ";cin>>correo;
 	cout<<"	Contrasenia: ";cin>>contrasenia;
-	
-	if(usuario=="luis"&&contrasenia==1234){
+
+	//FUNCION EN CASO DE NO LEER EL TXT 
+	ifstream input_file(filename);
+    if (!input_file.is_open()) {
+        cerr << "No pudimos leer el personal dado de alta - '" << filename << "'" << endl;
+        return;  
+    }
+
+	while(getline(input_file, line)){
+
+		switch(line_number%3) {//%3 ASEGURA QUE SE HAYA LEIDO EL correo, contrasenia y usuario
+            case 0:
+                correoReg = line;
+                break;
+
+            case 1:
+                contraseniaReg = std::stoi(line);  // Convertir string a int;
+                break;
+
+			case 2:
+			usuario=line;
+			break;
+	}
+
+	if(correo=="luis"&&contrasenia==1234){
 		system("cls");
-		personal(usuario);
+		personal(correo);
 		
 	}else{
 		cout<<"\n	Usuario incorrecto\n\n";
@@ -253,12 +293,122 @@ class Libreria{
 	}
 	return;	
 	}
+}
 
 	void cliente(){
+		
+		int opc,compra;
+	
+	cout<<"\n	Bienvenido a la biblioteca!";
+	cout<<"\n	Presione 1. si desea ver los libros que tenemos disponibles a la venta";
+	cout<<"\n	Presione 2. si desea salir.";
+	cout<<"\n	Su opcion: ";
+	cin>>opc;
+	
+	//cout<<"\n	Porfavor elija los libros que desea comprar."
+	switch(opc){
+		case 1:
+		cout<<"\n	Aqui tenemos los libros que tenemos disponibles!";
+		imprimir();
+		cout<<"\n	Presione 1. si desea comprar";
+		cout<<"\n	Presione 2. si desea salir";
+		cout<<"\n	Su opcion: ";
+		cin>>opc;
+		if(opc==1){
 
+			do{			
+			system("cls");
+			imprimir();
+			cout<<"\n\n	Porfavor escriba el libro que desea comprar.";	
+			cout<<"\n	Libro: ";
+			cin>>compra;
+
+			cout << "\n¿Desea comprar otro libro? (Presione 1 para sí, 2 para salir): ";
+            cin>>opc;
+
+			}while(opc == 1);
+		}
+		//break;
+	}
+	system("pause");
+	//mostrar libros
+	return;	
 	}
 
+	void creartxt(string &usuario){
+		Nodo *temp2 = head;//Creamos un nodo temporal que apunta al inicio
+    	ofstream outFile("Inventario.txt");
+    	if(outFile.is_open()) {
+       	outFile << "**LISTA DE LIBROS**\n";
+		outFile<<"NOMBRE		AUTOR		EDITORIAL		STOCK		PRECIO\n";
+        do {
+            outFile << temp2->libro.nombre << "\t\t" << temp2->libro.autor <<"\t\t" << temp2->libro.editorial
+			<<"\t\t"<<temp2->libro.stock<<"\t\t$" << temp2->libro.precio<< endl;
+			
+            temp2=temp2->sig;
+        }while(temp2!=head);// se detiene cuando ya le dimos la vuelta a la lista
+        cout << "\nSe ha creado el archivo correctamente.\n\n";
+    	} else {
+        cout << "\nNo se ha podido crear el archivo. Intenta de nuevo.";
+    	}
+    //termino de recorrer la lista
+	personal(usuario);
+	}
 
+	void leertxt(){
+		
+		string filename("D:\\GitHub\\CodingCCP\\stock.txt");
+		string nombre, autor, editorial;
+   		int precio = 0, stock = 0;
+    	string line; // Variable temporal para leer cada línea
+    	int line_number = 0; // Contador de líneas
+
+	//FUNCION EN CASO DE NO LEER EL TXT 
+	ifstream input_file(filename);
+    if (!input_file.is_open()) {
+        cerr << "No pudimos abrir el txt - '" << filename << "'" << endl;
+        return;  
+    }
+
+
+	 while (getline(input_file, line)) {
+        switch (line_number%5) {//%5 ASEGURA QUE SE HAYA LEIDO EL LIBRO COMPLETO
+            case 0:
+                nombre = line;
+                break;
+            case 1:
+                autor = line;
+                break;
+            case 2:
+                editorial = line;
+                break;
+            case 3:
+                precio = std::stoi(line);  // Convertir string a int
+                break;
+            case 4:
+				stock = std::stoi(line);  // Convertir string a int
+				insertar(nombre,autor,editorial,precio,stock);
+                break;
+        }
+
+		// Incrementar line_number después de procesar cada línea
+		 line_number++;
+	// Si line_number % 5 es 0 significa que hemos procesado un conjunto completo de datos del libro
+        // Entonces podemos reiniciar las variables para el próximo libro
+        if (line_number % 5 == 0) {
+            // Imprimir las variables (opcional)
+            cout << "Nombre: " << nombre << endl;
+            cout << "Autor: " << autor << endl;
+            cout << "Editorial: " << editorial << endl;
+            cout << "Precio: " << precio << endl;
+            cout << "Stock: " << stock << endl;
+		}
+    }
+
+    input_file.close();
+
+	return;
+	}
 };
 
 	Libreria libreria1;//creacion del objeto universal
@@ -266,14 +416,20 @@ class Libreria{
 int main(){
 	int opc;	
 
+	// Leer datos desde el archivo
+    libreria1.leertxt();
+
+
+
 	do{
-	system("cls");//limpia pantalla
+	//system("cls");//limpia pantalla
 	cout<<"\n	-----------------------------------------------------------------------------------------------------------------";
-	cout<<"						BIENVENIDO A LA LIBRERIA!";
+	cout<<"\n				BIENVENIDO A LA LIBRERIA!";
 	cout<<"\n	-----------------------------------------------------------------------------------------------------------------";
 	cout<<"\n\n	Porfavor seleccionar si usted es personal o cliente";
 	cout<<"\n\n	Presione 1. Si usted es personal.";
 	cout<<"\n	Presione 2. Si usted es cliente.";
+	cout<<"\n\n	Su opcion: ";
 	cout<<"\n\n	Su opcion: ";
 	cin>>opc;
 
