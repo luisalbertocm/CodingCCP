@@ -87,8 +87,9 @@ class Libreria{
 	}
 
 
-	void eliminar(){//funcion para eliminar algun libro
-	int indice;//variable local para solicitar la posicion
+	void eliminar(int &pos){//funcion para eliminar algun libro
+	
+	int indice; //variable local para solicitar la posicion
 	Nodo *temp = head, *temp2 = NULL; //Creamos dos nuevos apuntadores, 
         //uno a head y otroa NULL
 	
@@ -98,8 +99,8 @@ class Libreria{
             cout << "La lista esta vacia."<<endl;//imprime error
             return;//sale de la funcion
         }
-		cout << "Ingresa la posicion en la que se encuentra el contacto a eliminar: ";//solicita la posicion del contacto en la lista
-        cin >> indice;//lee la posicion
+		
+        indice=pos;//lee la posicion
 
 	do{
 		temp=temp->sig;
@@ -134,7 +135,9 @@ class Libreria{
             temp2->ant = temp->ant; //salvamos el enlace de temp1(borrar) anterior en temp2
 			temp->ant->sig=temp2;//conectamos el nodo anterior a temp1(borrar) con temp2
 			delete temp; //borramos el nodo que queriamos
-		cout<<"Libro eliminado"<<endl;//mensaje de exito
+		cout<<"\n	Libro eliminado"<<endl;//mensaje de exito
+	//personal();
+
 	}
 
 	void imprimir(){
@@ -146,9 +149,9 @@ class Libreria{
             cout << "La lista esta vacia."<<endl; //mensaje de error
             return;//sale de la funcion
         }
-		cout<<"\n\n\t  NOMBRE\t\tAUTOR\t\tEDITORIAL\tPRECIO\tSTOCK";
+		cout<<"\n\n\t  NOMBRE\t\t\tAUTOR\t\t\tEDITORIAL\t\tPRECIO\t\tSTOCK";
 		do{ //Mientras temporal sea diferente de NULL (no es el final)	
-			cout<<"\nLibro "<<pos<<"\t"<<temp->libro.nombre<<"\t\t"<<temp->libro.autor<<"\t\t"<<temp->libro.editorial<<"\t\t$"<<temp->libro.precio<<"\t\t"<<temp->libro.stock;
+			cout<<"\nLibro "<<pos<<"\t"<<temp->libro.nombre<<"\t\t  "<<temp->libro.autor<<"\t\t  "<<temp->libro.editorial<<"\t\t$"<<temp->libro.precio<<"\t\t"<<temp->libro.stock;
             temp = temp->sig; //Y avanzamos al siguiente
             pos++;//incrementa la variable para mostrar posicion
         }while(temp!= head);// se detiene cuando ya le dimos la vuelta a la lista
@@ -196,7 +199,7 @@ class Libreria{
 
 
 	void personal(string &usuario){
-		int opc;
+		int opc, pos;
 	
 		cout<<"\n	Bienvenido "<<usuario<<"!";
 		cout<<"\n	Porfavor ingresar la opcion que desea realizar";
@@ -204,7 +207,8 @@ class Libreria{
 		cout<<"\n	Opcion 2. Imprimir libros";
 		cout<<"\n	Opcion 3. Ordenar los libros por precio";
 		cout<<"\n	Opcione 4. Crear txt";
-		cout<<"\n	Opcione 5. Cerrar seccion";
+		cout<<"\n	Opcione 5. Eliminar Libro";
+		cout<<"\n	Opcione 6. Cerrar seccion";
 		cout<<"\n\n	Su opcion: ";cin>>opc;
 		switch(opc){
 			case 1:
@@ -231,10 +235,21 @@ class Libreria{
 				break;
 
 			case 5:
+				cout<<"\n	Usted va a eliminar un libro";
+				imprimir();
+
+				cout<<"\n	Ingrese el libro que desea eliminar: ";
+				cin>>pos;
+				eliminar(pos);
+
+				break;
+
+			case 6:
 				cout<<"\n	Usted a cerrado seccion de manera exitosa!\n\n";
 				system("pause");system("cls");
 
 				break;
+
 			default:
 				cout<<"\n	Ingrese una opcion correcta.\n\n";
 				system("pause");
@@ -302,51 +317,13 @@ class Libreria{
 	return;		
 }
 
-	void cliente(){
-		
-		int opc,compra;
 	
-	cout<<"\n	Bienvenido a la biblioteca!";
-	cout<<"\n	Presione 1. si desea ver los libros que tenemos disponibles a la venta";
-	cout<<"\n	Presione 2. si desea salir.";
-	cout<<"\n	Su opcion: ";
-	cin>>opc;
-	
-	//cout<<"\n	Porfavor elija los libros que desea comprar."
-	switch(opc){
-		case 1:
-		cout<<"\n	Aqui tenemos los libros que tenemos disponibles!";
-		imprimir();
-		cout<<"\n	Presione 1. si desea comprar";
-		cout<<"\n	Presione 2. si desea salir";
-		cout<<"\n	Su opcion: ";
-		cin>>opc;
-		if(opc==1){
-
-			do{			
-			system("cls");
-			imprimir();
-			cout<<"\n\n	Porfavor escriba el libro que desea comprar.";	
-			cout<<"\n	Libro: ";
-			cin>>compra;
-
-			cout << "\n¿Desea comprar otro libro? (Presione 1 para sí, 2 para salir): ";
-            cin>>opc;
-
-			}while(opc == 1);
-		}
-		//break;
-	}
-	system("pause");
-	//mostrar libros
-	return;	
-	}
 
 	void crearInventariotxt(string &usuario){
 		Nodo *temp2 = head;//Creamos un nodo temporal que apunta al inicio
     	ofstream outFile("Inventario.txt");
     	if(outFile.is_open()) {
-       	outFile << "**LISTA DE LIBROS**\n";
+       	outFile << "*LISTA DE LIBROS*\n";
 		outFile<<"NOMBRE		AUTOR		EDITORIAL		STOCK		PRECIO\n";
         do {
             outFile << temp2->libro.nombre << "\t\t" << temp2->libro.autor <<"\t\t" << temp2->libro.editorial
@@ -416,6 +393,63 @@ class Libreria{
 
 	return;
 	}
+
+	void compra(){
+		int pos,opc;
+		do{			
+			system("cls");
+			imprimir();
+			cout<<"\n\n	Porfavor escriba el libro que desea comprar.";	
+			cout<<"\n	Libro: ";
+			cin>>pos;
+			//AQUI DEBEMOS ENBIAR LA POSICION DEL LIBRO A LA FUNCION DE COMPRA PARA CREAR EL TICKET
+			
+
+			cout << "\n¿Desea comprar otro libro? (Presione 1 para si, 2 para salir): ";
+            cin>>opc;
+
+			}while(opc == 1);
+	}
+
+
+void cliente(){
+		int opc,pos;
+	
+	cout<<"\n	Bienvenido a la biblioteca!";
+	cout<<"\n	Presione 1. si desea ver los libros que tenemos disponibles a la venta";
+	cout<<"\n	Presione 2. si desea salir.";
+	cout<<"\n	Su opcion: ";
+	cin>>opc;
+	
+	//cout<<"\n	Porfavor elija los libros que desea comprar."
+	switch(opc){
+		case 1:
+		cout<<"\n	Aqui tenemos los libros que tenemos disponibles!";
+		imprimir();
+		cout<<"\n\n	Presione 1. si desea comprar";
+		cout<<"\n	Presione 2. si desea salir";
+		cout<<"\n	Su opcion: ";
+		cin>>opc;
+		if(opc==1)
+			compra();
+		else
+			return;
+		break;
+
+		case 2:
+		return;
+		break;
+
+		default:
+		cout<<"\n	Ingresa una opcion correcta.";	
+		break;	
+	}
+	system("pause");
+	return;	
+	}
+
+
+
 };
 
 	Libreria libreria1;//creacion del objeto universal
@@ -426,8 +460,6 @@ int main(){
 	// Leer datos desde el archivo
     libreria1.leertxt();
 
-
-
 	do{
 	//system("cls");//limpia pantalla
 	cout<<"\n	-----------------------------------------------------------------------------------------------------------------";
@@ -436,7 +468,6 @@ int main(){
 	cout<<"\n\n	Porfavor seleccionar si usted es personal o cliente";
 	cout<<"\n\n	Presione 1. Si usted es personal.";
 	cout<<"\n	Presione 2. Si usted es cliente.";
-	cout<<"\n\n	Su opcion: ";
 	cout<<"\n\n	Su opcion: ";
 	cin>>opc;
 
